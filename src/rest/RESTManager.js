@@ -8,10 +8,10 @@ const Collection = require('../util/Collection');
 const { Endpoints } = require('../util/Constants');
 
 class RESTManager {
-  constructor(client) {
+  constructor(client, tokenPrefix = 'Bot') {
     this.client = client;
     this.handlers = new Collection();
-    // C this.tokenPrefix = tokenPrefix;
+    this.tokenPrefix = tokenPrefix;
     this.versioned = true;
     this.globalTimeout = null;
     if (client.options.restSweepInterval > 0) {
@@ -26,11 +26,8 @@ class RESTManager {
   }
 
   getAuth() {
-    if (this.client.token && this.client.user && this.client.user.bot) {
-      return `Bot ${this.client.token}`;
-    } else if (this.client.token) {
-      return this.client.token;
-    }
+    const token = this.client.token || this.client.accessToken;
+    if (token) return `${this.tokenPrefix} ${token}`;
     throw new Error('TOKEN_MISSING');
   }
 
