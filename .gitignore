@@ -21,3 +21,4 @@ deploy/deploy_key.pub
 docs/docs.json
 typings/index.js
 webpack/
+*.bak
